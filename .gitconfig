@@ -29,7 +29,7 @@
 
 [http]
 	sslCAinfo = /etc/ssl/certs/ca-certificates.crt
-    #sslverify = false
+    sslverify = false
 [user]
 	email = 12martin12@gmx.de
 	name = iNETSOLDIER

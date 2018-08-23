@@ -21,3 +21,4 @@ fi
 
 # Customize to your needs...
 alias config='/usr/bin/git --git-dir=/home/inet/.cfg/ --work-tree=/home/inet'
+alias rm='rm -f'
