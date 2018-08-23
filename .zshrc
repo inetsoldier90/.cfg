@@ -20,5 +20,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+fpath=(
+    ~/.zfuncs
+    ~/.zfuncs/**/*~*/(CVS)#(/N)
+    "${fpath[@]}"
+)
+
 alias config='/usr/bin/git --git-dir=/home/inet/.cfg/ --work-tree=/home/inet'
 alias rm='rm -f'

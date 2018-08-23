@@ -14,6 +14,7 @@ Plug 'peterhellberg/snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 
@@ -104,11 +105,15 @@ autocmd VimEnter * set nosc
 " Use space for :
 noremap <space> :
 
-" Quicksave
+" Quick save
 nmap <leader>w :w!<cr>
 
 " Open last opened file
 nmap <leader>l :e#<cr>
+
+" Change record macro to Q
+nnoremap <leader>q q
+nnoremap q <Nop>
 
 " Open new buffers
 nmap <leader>sl :leftabove  vnew<cr>
@@ -121,7 +126,7 @@ noremap <tab> <c-w>w
 noremap <S-tab> <c-w>W
 
 " Close current buffer
-nmap <leader>qw :bd<cr>
+nmap <leader>b :bd<cr>
 
 " NERDTree
 nmap <leader>n :NERDTreeToggle<CR>
