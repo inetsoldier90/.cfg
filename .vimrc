@@ -23,6 +23,8 @@ let mapleader=","
 set timeout
 set timeoutlen=2000
 
+set shell=/bin/bash
+
 set clipboard=unnamed,unnamedplus
 set completeopt-=preview
 set expandtab
@@ -111,9 +113,8 @@ nmap <leader>w :w!<cr>
 " Open last opened file
 nmap <leader>l :e#<cr>
 
-" Change record macro to Q
+" Change record macro
 nnoremap <leader>q q
-nnoremap q <Nop>
 
 " Open new buffers
 nmap <leader>sl :leftabove  vnew<cr>
@@ -145,14 +146,10 @@ let g:UltiSnipsExpandTrigger="<tab>"
 " CtrlP
 nnoremap <silent> t :CtrlP<cr>
 
-let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
-let g:ctrlp_working_path_mode = 2
-let g:ctrlp_by_filename = 0
-let g:ctrlp_max_files = 256
-let g:ctrlp_max_depth = 4
-let g:ctrlp_root_markers = ['.git']
-let g:ctrlp_user_command = {
-  \ 'types': { 1: ['.git/', 'cd %s && git ls-files --cached --exclude-standard --others | grep -v vendor | grep -v _workspace | grep -v private_gems'] },
-  \ 'fallback': 'ack -f %s --ignore-dir=.git | head -' . g:ctrlp_max_files
-  \ }
+" Ignore these directories
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux"
+set wildignore+=*/out/**
+set wildignore+=*/vendor/**
+let g:ctrlp_max_files = 0
+" Search from current directory instead of project root
+let g:ctrlp_working_path_mode = 0
