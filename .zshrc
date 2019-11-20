@@ -1,33 +1,29 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-#
+source $HOME/antigen.zsh
 
-[[ $TERM != "screen" ]] && exec tmux
+antigen use oh-my-zsh
 
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-[ -n "$PS1" ] && \
-    [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-        eval "$("$BASE16_SHELL/profile_helper.sh")"
+antigen bundle git
+antigen bundle command-not-found
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
 
-# Customize to your needs...
+# Load the theme.
+antigen theme robbyrussell
+
+# Tell Antigen that you're done.
+antigen apply
+
+if [ "$TMUX" = ""  ]; then tmux; fi
 
 fpath=(
-    ~/.zfuncs
-    ~/.zfuncs/**/*~*/(CVS)#(/N)
-    "${fpath[@]}"
+  ~/.zfuncs
+  ~/.zfuncs/**/*~*/(CVS)#(/N)
+  "${fpath[@]}"
 )
 
-autoload hello
+autoload -Uz ssh-cloudserver scp-cloudserver
 
-alias config='/usr/bin/git --git-dir=/home/inet/.cfg/ --work-tree=/home/inet'
+alias config='/usr/bin/git --git-dir=/home/jungbaum/.cfg/ --work-tree=/home/jungbaum'
+
 alias rm='rm -f'
