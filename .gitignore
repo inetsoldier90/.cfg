@@ -1,1 +1,3 @@
 .dotfiles
+.antigen
+node_modules
