@@ -116,6 +116,4 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if test -t 1; then
-exec zsh
-fi
+. "$HOME/.cargo/env"
