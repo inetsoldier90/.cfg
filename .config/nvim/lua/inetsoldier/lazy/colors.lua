@@ -9,6 +9,18 @@ end
 
 return {
     {
+        "erikbackman/brightburn.vim",
+    },
+
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        opts = {},
+        config = function()
+            ColorMyPencils()
+        end
+    },
+    {
         "folke/tokyonight.nvim",
         config = function()
             require("tokyonight").setup({
@@ -36,11 +48,12 @@ return {
         config = function()
             require('rose-pine').setup({
                 disable_background = true,
+                styles = {
+                    italic = false,
+                },
             })
 
-            vim.cmd("colorscheme rose-pine")
-
-            ColorMyPencils()
+            ColorMyPencils();
         end
     },
 }
