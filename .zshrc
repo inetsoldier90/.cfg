@@ -20,15 +20,21 @@ fpath=(
     "${fpath[@]}"
 )
 
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg.git/ --work-tree=$HOME'
 alias rm='rm -f'
+alias n="nvim $1"
+alias vim="nvim"
+alias vi="nvim"
 
-export GOPATH=$HOME/dev/golang
+export SUDO_EDITOR=/usr/bin/nvim
 
-source "$HOME/.cargo/env"
-export PATH="$PATH:/mnt/d/BIN/:$GOPATH/bin:/usr/local/go/bin"
+#export GOPATH=$HOME/dev/golang
+
+#source "$HOME/.cargo/env"
+#export PATH="$PATH:/mnt/d/BIN/:$GOPATH/bin:/usr/local/go/bin"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export PATH="$HOME/.local/bin:$PATH"

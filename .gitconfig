@@ -33,3 +33,5 @@
 [user]
 	email = 12martin12@gmx.de
 	name = iNETSOLDIER
+[init]
+	defaultBranch = main

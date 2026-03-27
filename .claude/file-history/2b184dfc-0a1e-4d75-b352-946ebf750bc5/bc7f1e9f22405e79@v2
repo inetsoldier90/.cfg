@@ -1,0 +1,29 @@
+# Runtime state — managed by HA, not human-edited
+.storage/
+
+# HACS-managed integrations and frontend resources
+custom_components/
+www/community/
+
+# Database & logs
+home-assistant_v2.db*
+home-assistant.log*
+
+# Python dependency cache
+deps/
+
+# Text-to-speech cache
+tts/
+
+# HACS themes
+themes/
+
+# UI Lovelace Minimalist (HACS)
+ui_lovelace_minimalist/
+
+# HA runtime files
+.cache/
+.ha_run.lock
+
+# Sensitive — do not commit real secrets
+# secrets.yaml

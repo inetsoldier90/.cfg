@@ -1,0 +1,1 @@
+- [HA API Token](ha_token.md) — Long-lived token "Claude" for pushing Lovelace config + reloading HA at 192.168.68.79:8123

@@ -1,3 +1,10 @@
 .dotfiles
 .antigen
 node_modules
+.local/
+.mozilla/
+.cache
+.vim
+yay
+.config/go/
+dev/

@@ -1,0 +1,1424 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_testing",
+  "data": {
+    "config": {
+      "title": "Home of Banus",
+      "views": [
+        {
+          "path": "default_view",
+          "max_columns": 4,
+          "title": "Home",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "show_name": false,
+                  "show_icon": true,
+                  "type": "button",
+                  "entity": "cover.garage_door",
+                  "name": "Garage Door",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "grid_options": {
+                    "rows": 5,
+                    "columns": "full"
+                  }
+                },
+                {
+                  "type": "entities",
+                  "title": "Garage Test",
+                  "entities": [
+                    "cover.garage_door",
+                    "input_boolean.garage_motion_lock",
+                    "input_boolean.garage_lock_override",
+                    {
+                      "type": "button",
+                      "name": "Force Unlock",
+                      "icon": "mdi:lock-open",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "script.garage_force_unlock"
+                      }
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "user",
+                      "users": [
+                        "ca9f1cb5033b4a02b21de876b24f54b0"
+                      ]
+                    },
+                    {
+                      "condition": "screen",
+                      "media_query": "(min-width: 1024px) and (max-width: 1279px)"
+                    }
+                  ]
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.dining"
+                    },
+                    {
+                      "entity": "light.kitchen"
+                    },
+                    {
+                      "entity": "light.living"
+                    },
+                    {
+                      "entity": "light.entrance"
+                    }
+                  ],
+                  "title": "Basement Lights"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.bedroom"
+                    },
+                    {
+                      "entity": "light.wake_up_light"
+                    }
+                  ],
+                  "title": "Bedroom Lights"
+                }
+              ]
+            }
+          ],
+          "type": "sections",
+          "icon": "mdi:home"
+        },
+        {
+          "type": "sections",
+          "max_columns": 4,
+          "title": "Network",
+          "path": "network",
+          "icon": "mdi:console-network",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.adguard_home_filtering",
+                      "name": "Filtering"
+                    },
+                    {
+                      "entity": "switch.adguard_home_parental_control",
+                      "name": "Parental control"
+                    },
+                    {
+                      "entity": "switch.adguard_home_protection",
+                      "name": "Protection"
+                    },
+                    {
+                      "entity": "switch.adguard_home_query_log",
+                      "name": "Query log"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_browsing",
+                      "name": "Safe browsing"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_search",
+                      "name": "Safe search"
+                    }
+                  ],
+                  "title": "AdGuard Home"
+                },
+                {
+                  "type": "custom:mushroom-entity-card",
+                  "entity": "switch.adguard_home_filtering",
+                  "name": "Test Mushroom Card",
+                  "icon": "mdi:test-tube"
+                },
+                {
+                  "type": "custom:button-card",
+                  "entity": "switch.adguard_home_protection",
+                  "name": "Test Button Card",
+                  "icon": "mdi:shield-check",
+                  "tap_action": {
+                    "action": "toggle"
+                  }
+                },
+                {
+                  "type": "custom:mini-graph-card",
+                  "entities": [
+                    {
+                      "entity": "switch.adguard_home_filtering"
+                    }
+                  ],
+                  "name": "Test Mini Graph",
+                  "hours_to_show": 24,
+                  "points_per_hour": 1
+                },
+                {
+                  "type": "custom:auto-entities",
+                  "card": {
+                    "type": "entities",
+                    "title": "Test Auto Entities (All Lights)"
+                  },
+                  "filter": {
+                    "include": [
+                      {
+                        "domain": "light"
+                      }
+                    ]
+                  },
+                  "show_empty": false
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    "switch.adguard_home_safe_search"
+                  ],
+                  "title": "Test Card Mod (Red Background)",
+                  "card_mod": {
+                    "style": "ha-card {\n  background: rgba(255, 0, 0, 0.1);\n  border: 2px solid red;\n}\n"
+                  }
+                }
+              ]
+            }
+          ],
+          "cards": []
+        }
+      ]
+    }
+  }
+}---
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.lovelace",
+  "data": {
+    "config": {
+      "title": "Home of Banus",
+      "views": [
+        {
+          "path": "default_view",
+          "title": "Home",
+          "icon": "mdi:home",
+          "type": "sections",
+          "max_columns": 2,
+          "sections": [
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "chips": [
+                    {
+                      "type": "weather",
+                      "entity": "weather.forecast_home_of_banus",
+                      "show_conditions": true,
+                      "show_temperature": true
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "icon_color": "{% if states.light | selectattr('state','eq','on') | list | count > 0 %}amber{% else %}disabled{% endif %}",
+                      "content": "{{ states.light | selectattr('state','eq','on') | list | count }} lights on",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "{% if is_state('cover.garage_door', 'open') or is_state('cover.garage_door', 'opening') %}mdi:garage-open{% else %}mdi:garage{% endif %}",
+                      "icon_color": "{% if is_state('cover.garage_door', 'closed') %}green{% else %}orange{% endif %}",
+                      "content": "Garage {{ states('cover.garage_door') | title }}",
+                      "tap_action": {
+                        "action": "more-info",
+                        "entity": "cover.garage_door"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 1,
+              "cards": [
+                {
+                  "type": "weather-forecast",
+                  "entity": "weather.forecast_home_of_banus",
+                  "forecast_type": "daily"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 1,
+              "cards": [
+                {
+                  "type": "tile",
+                  "entity": "cover.garage_door",
+                  "name": "Garage Door",
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "icon_tap_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "tile",
+                      "entity": "light.basement_lights",
+                      "name": "Basement",
+                      "icon_tap_action": {
+                        "action": "toggle"
+                      },
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-basement-area"
+                      }
+                    },
+                    {
+                      "type": "tile",
+                      "entity": "light.bedroom_lights",
+                      "name": "Bedroom",
+                      "icon_tap_action": {
+                        "action": "toggle"
+                      },
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-bedroom-area"
+                      }
+                    },
+                    {
+                      "type": "tile",
+                      "entity": "light.terrace",
+                      "name": "Terrace",
+                      "icon_tap_action": {
+                        "action": "toggle"
+                      },
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-terrace"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "tile",
+                      "entity": "person.martin_banus",
+                      "name": "Martin"
+                    },
+                    {
+                      "type": "tile",
+                      "entity": "person.sefanja_banus",
+                      "name": "Sefanja"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights",
+          "title": "Lights",
+          "icon": "mdi:lightbulb-group",
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.dining",
+                      "name": "Dining",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-dining"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.kitchen",
+                      "name": "Kitchen",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-kitchen"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.living",
+                      "name": "Living",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "show_color_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-living"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.entrance",
+                      "name": "Entrance",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-entrance"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.bedroom",
+                      "name": "Bedroom",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-bedroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.wake_up_light",
+                      "name": "Wake Up",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-wakeup"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.terrace",
+                  "name": "Terrace",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "show_color_temp_control": true,
+                  "show_color_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "navigate",
+                    "navigation_path": "/lovelace/lights-terrace"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-basement-area",
+          "title": "Basement",
+          "icon": "mdi:floor-plan",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.dining",
+                      "name": "Dining",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-dining"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.kitchen",
+                      "name": "Kitchen",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-kitchen"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.living",
+                      "name": "Living",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "show_color_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-living"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.entrance",
+                      "name": "Entrance",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-entrance"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-bedroom-area",
+          "title": "Bedroom",
+          "icon": "mdi:bed",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.bedroom",
+                      "name": "Bedroom",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-bedroom"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.wake_up_light",
+                      "name": "Wake Up",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights-wakeup"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-dining",
+          "title": "Dining",
+          "icon": "mdi:silverware-fork-knife",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hue_filament_bulb_1",
+                  "name": "Filament Bulb",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-kitchen",
+          "title": "Kitchen",
+          "icon": "mdi:countertop",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.hue_pillar_spot_2",
+                      "name": "Pillar Spot 2",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "more-info"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.hue_pillar_spot_2_2",
+                      "name": "Pillar Spot 1",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "more-info"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.hue_pillar_spot_3",
+                      "name": "Pillar Spot 3",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "more-info"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-living",
+          "title": "Living Room",
+          "icon": "mdi:sofa",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "horizontal-stack",
+                  "cards": [
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.signe_gradient_floor_1",
+                      "name": "Signe Floor",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "show_color_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "more-info"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    },
+                    {
+                      "type": "custom:mushroom-light-card",
+                      "entity": "light.hue_pillar_spot_4",
+                      "name": "Pillar Spot 4",
+                      "fill_container": true,
+                      "use_light_color": true,
+                      "show_brightness_control": true,
+                      "show_color_temp_control": true,
+                      "collapsible_controls": false,
+                      "tap_action": {
+                        "action": "more-info"
+                      },
+                      "hold_action": {
+                        "action": "toggle"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-entrance",
+          "title": "Entrance",
+          "icon": "mdi:door-open",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hue_pillar_spot_5",
+                  "name": "Pillar Spot 5",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "show_color_temp_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-bedroom",
+          "title": "Bedroom",
+          "icon": "mdi:bed",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hue_filament_bulb_2",
+                  "name": "Filament Bulb",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "show_color_temp_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-wakeup",
+          "title": "Wake Up Light",
+          "icon": "mdi:weather-sunset-up",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.wake_up_light",
+                  "name": "Wake Up Light",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "lights-terrace",
+          "title": "Terrace",
+          "icon": "mdi:flower",
+          "subview": true,
+          "type": "sections",
+          "max_columns": 1,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-light-card",
+                  "entity": "light.hue_flux_outdoor_strip_light_1",
+                  "name": "Outdoor Strip",
+                  "use_light_color": true,
+                  "show_brightness_control": true,
+                  "show_color_temp_control": true,
+                  "show_color_control": true,
+                  "collapsible_controls": false,
+                  "tap_action": {
+                    "action": "more-info"
+                  },
+                  "hold_action": {
+                    "action": "toggle"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "sections",
+          "max_columns": 2,
+          "title": "Network",
+          "path": "network",
+          "icon": "mdi:console-network",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "title": "AdGuard Home",
+                  "entities": [
+                    {
+                      "entity": "switch.adguard_home_filtering",
+                      "name": "Filtering"
+                    },
+                    {
+                      "entity": "switch.adguard_home_parental_control",
+                      "name": "Parental control"
+                    },
+                    {
+                      "entity": "switch.adguard_home_protection",
+                      "name": "Protection"
+                    },
+                    {
+                      "entity": "switch.adguard_home_query_log",
+                      "name": "Query log"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_browsing",
+                      "name": "Safe browsing"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_search",
+                      "name": "Safe search"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "column_span": 2,
+              "cards": [
+                {
+                  "type": "custom:mushroom-chips-card",
+                  "alignment": "center",
+                  "chips": [
+                    {
+                      "type": "template",
+                      "icon": "mdi:home",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/default_view"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:lightbulb-group",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/lights"
+                      }
+                    },
+                    {
+                      "type": "template",
+                      "icon": "mdi:network",
+                      "tap_action": {
+                        "action": "navigate",
+                        "navigation_path": "/lovelace/network"
+                      }
+                    }
+                  ],
+                  "card_mod": {
+                    "style": "ha-card { position: fixed !important; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; width: auto !important; border-radius: 28px !important; box-shadow: 0 4px 24px rgba(0,0,0,0.5); padding: 0 8px; border: 1px solid rgba(128,128,128,0.2); }"
+                  }
+                }
+              ]
+            }
+          ],
+          "cards": []
+        }
+      ]
+    }
+  }
+}

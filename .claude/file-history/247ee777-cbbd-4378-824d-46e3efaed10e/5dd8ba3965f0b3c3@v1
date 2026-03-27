@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "title": "Home of Banus",
+      "views": [
+        {
+          "path": "default_view",
+          "max_columns": 4,
+          "title": "Home",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "show_name": false,
+                  "show_icon": true,
+                  "type": "button",
+                  "entity": "cover.garage_door",
+                  "name": "Garage Door",
+                  "tap_action": {
+                    "action": "toggle"
+                  },
+                  "grid_options": {
+                    "rows": 5,
+                    "columns": "full"
+                  }
+                },
+                {
+                  "type": "entities",
+                  "title": "Garage Test",
+                  "entities": [
+                    "cover.garage_door",
+                    "input_boolean.garage_motion_lock",
+                    "input_boolean.garage_lock_override",
+                    {
+                      "type": "button",
+                      "name": "Force Unlock",
+                      "icon": "mdi:lock-open",
+                      "tap_action": {
+                        "action": "call-service",
+                        "service": "script.garage_force_unlock"
+                      }
+                    }
+                  ],
+                  "visibility": [
+                    {
+                      "condition": "user",
+                      "users": [
+                        "ca9f1cb5033b4a02b21de876b24f54b0"
+                      ]
+                    },
+                    {
+                      "condition": "screen",
+                      "media_query": "(min-width: 1024px) and (max-width: 1279px)"
+                    }
+                  ]
+                }
+              ],
+              "column_span": 1
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.dining"
+                    },
+                    {
+                      "entity": "light.kitchen"
+                    },
+                    {
+                      "entity": "light.living"
+                    },
+                    {
+                      "entity": "light.entrance"
+                    }
+                  ],
+                  "title": "Basement Lights"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "light.bedroom"
+                    },
+                    {
+                      "entity": "light.wake_up_light"
+                    }
+                  ],
+                  "title": "Bedroom Lights"
+                }
+              ]
+            }
+          ],
+          "type": "sections",
+          "icon": "mdi:home"
+        },
+        {
+          "type": "sections",
+          "max_columns": 4,
+          "title": "Network",
+          "path": "network",
+          "icon": "mdi:console-network",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    {
+                      "entity": "switch.adguard_home_filtering",
+                      "name": "Filtering"
+                    },
+                    {
+                      "entity": "switch.adguard_home_parental_control",
+                      "name": "Parental control"
+                    },
+                    {
+                      "entity": "switch.adguard_home_protection",
+                      "name": "Protection"
+                    },
+                    {
+                      "entity": "switch.adguard_home_query_log",
+                      "name": "Query log"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_browsing",
+                      "name": "Safe browsing"
+                    },
+                    {
+                      "entity": "switch.adguard_home_safe_search",
+                      "name": "Safe search"
+                    }
+                  ],
+                  "title": "AdGuard Home"
+                }
+              ]
+            }
+          ],
+          "cards": []
+        }
+      ]
+    }
+  }
+}

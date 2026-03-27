@@ -1,0 +1,46 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+This is a [Home Assistant](https://www.home-assistant.io/) configuration repository for a smart home hub running HA 2025.8.3. Configuration is written in YAML. There are no build steps or tests — changes take effect when loaded by the running Home Assistant instance.
+
+## Key Configuration Files
+
+- `configuration.yaml` — Main HA config. Defines integrations (MQTT, emulated Hue, HTTP proxy trust), template covers, input helpers, and timers. All other YAML files are included from here.
+- `automations.yaml` — Automation rules (loaded via `automation: !include`)
+- `scripts.yaml` — Reusable scripts (loaded via `script: !include`)
+- `scenes.yaml` — Scene definitions (currently empty)
+- `customize.yaml` — Entity attribute overrides
+- `secrets.yaml` — Sensitive values referenced via `!secret` in other files
+
+## Architecture: Garage Door Control
+
+The primary automation domain is a **safe garage door controller** built around a Shelly1 MQTT relay (`shellies/shelly1-113C9D`):
+
+- **Hardware**: Shelly1 relay sends MQTT pulse to trigger the physical door motor
+- **Template cover** (`cover.garage_door_safe`): A virtual cover entity that adds safety logic on top of the raw MQTT sensor/relay
+- **Safety mechanism**: An `input_boolean.garage_motion_lock` prevents operation during active motion. A `timer.garage_travel_delay` tracks door travel time.
+- **Scripts**: `garage_open`, `garage_close`, `garage_stop`, `garage_pulse`, `garage_force_unlock` — the open/close scripts check lock state, pulse the relay, then start the travel timer
+- **Automations**: Manage lock state transitions (unlock on timer end, unlock when fully open, cancel timer on manual unlock, auto-disable 10-min override)
+
+## Custom Components & Frontend
+
+- `custom_components/hacs/` — HACS (Home Assistant Community Store) v1.32.1. Note: currently has a compatibility error with HA 2025.8.3 (`AttributeError: register_static_path`).
+- `www/community/` — Lovelace frontend JS resources: `hass-hue-icons` and `lovelace-hue-like-light-card`
+- `blueprints/` — Standard HA blueprints for motion-activated lights, zone departure notifications, confirmable notifications, and inverted binary sensors
+
+## Network Context
+
+- HA instance IP: `192.168.68.79`
+- SSH access: `ssh mbanus@192.168.68.79`
+- Trusted reverse proxy subnet: `172.30.33.0/24`
+- Emulated Hue bridge: port 8080
+
+## YAML Conventions
+
+- Secrets are referenced as `!secret <key>` and defined in `secrets.yaml`
+- Multi-file includes use `!include <file>` or `!include_dir_merge_named <dir>`
+- Entity IDs follow the pattern `<domain>.<descriptive_name>` (e.g., `input_boolean.garage_motion_lock`)
+- MQTT topics follow Shelly convention: `shellies/<device-id>/relay/0/command`

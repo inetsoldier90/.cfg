@@ -1,0 +1,92 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+This is a [Home Assistant](https://www.home-assistant.io/) configuration repository for a smart home hub running HA 2025.8.3. Configuration is written in YAML. There are no build steps or tests — changes take effect when loaded by the running Home Assistant instance.
+
+## Key Configuration Files
+
+- `configuration.yaml` — Main HA config. Defines integrations (MQTT, emulated Hue, HTTP proxy trust), template covers, input helpers, and timers. All other YAML files are included from here.
+- `automations.yaml` — Automation rules (loaded via `automation: !include`)
+- `scripts.yaml` — Reusable scripts (loaded via `script: !include`)
+- `scenes.yaml` — Scene definitions (currently empty)
+- `customize.yaml` — Entity attribute overrides
+- `secrets.yaml` — Sensitive values referenced via `!secret` in other files
+
+## Architecture: Garage Door Control
+
+The primary automation domain is a **safe garage door controller** built around a Shelly1 MQTT relay (`shellies/shelly1-113C9D`):
+
+- **Hardware**: Shelly1 relay sends MQTT pulse to trigger the physical door motor
+- **Template cover** (`cover.garage_door`): Defined using the modern `template:` syntax in `configuration.yaml`. Adds safety logic on top of the raw MQTT relay — state is driven by `input_boolean.garage_door_virtual_open`.
+- **Safety mechanism**: An `input_boolean.garage_motion_lock` prevents operation during active motion. A `timer.garage_travel` tracks door travel time.
+- **Scripts**: `garage_open`, `garage_close`, `garage_stop`, `garage_pulse`, `garage_force_unlock` — the open/close scripts check lock state, pulse the relay, then start the travel timer
+- **Automations**: Manage lock state transitions (unlock on timer end, cancel timer on manual unlock, auto-disable lock after 10 min)
+
+## Custom Components & Frontend
+
+- `custom_components/hacs/` — HACS (Home Assistant Community Store) v1.32.1. Note: currently has a compatibility error with HA 2025.8.3 (`AttributeError: register_static_path`). Gitignored — restored by reinstalling.
+- `www/community/` — Lovelace frontend JS resources: `hass-hue-icons` and `lovelace-hue-like-light-card`. Gitignored — restored by reinstalling HACS add-ons.
+- `blueprints/` — Only `confirmable_notification` and `inverted_binary_sensor` (script/template blueprints). No automation blueprints in use.
+
+## Dashboards
+
+Only one dashboard is in use: the default **Overview** (`lovelace.lovelace`). No other dashboards exist.
+
+## Workflow: Host is source of truth (Option A)
+
+Edit config files **directly on the HA host** at `/homeassistant/`. The local repo is used for version control/backup only.
+
+**Sync host → local repo** (pull latest from host):
+```bash
+rsync -av mbanus@192.168.68.79:/homeassistant/configuration.yaml \
+  mbanus@192.168.68.79:/homeassistant/automations.yaml \
+  mbanus@192.168.68.79:/homeassistant/scripts.yaml \
+  mbanus@192.168.68.79:/homeassistant/scenes.yaml \
+  mbanus@192.168.68.79:/homeassistant/customize.yaml \
+  mbanus@192.168.68.79:/homeassistant/secrets.yaml \
+  mbanus@192.168.68.79:/homeassistant/.HA_VERSION \
+  /home/inet/dev/ha/config/
+rsync -av mbanus@192.168.68.79:/homeassistant/blueprints/ /home/inet/dev/ha/config/blueprints/
+```
+
+**Dashboard** (`lovelace.lovelace`) is pushed directly via the REST API using `/home/inet/dev/ha/ha_push.py`. After any dashboard change:
+```bash
+python3 /home/inet/dev/ha/ha_push.py /tmp/lovelace_config.json
+```
+User only needs to refresh the browser (`F5`) — no Developer Tools or HA restart needed.
+
+**Config changes** (e.g. `configuration.yaml`, `automations.yaml`) must be pushed to the server:
+```bash
+cat configuration.yaml | ssh mbanus@192.168.68.79 'sudo tee /homeassistant/configuration.yaml > /dev/null'
+```
+Then reload or restart HA via the API:
+```bash
+curl -s -X POST http://192.168.68.79:8123/api/services/homeassistant/restart \
+  -H "Authorization: Bearer <token>" -H "Content-Type: application/json" -d '{}'
+```
+
+**Server git** is kept in sync by pulling from GitHub after pushing from local:
+```bash
+ssh mbanus@192.168.68.79 'sudo git -C /homeassistant pull'
+```
+Note: SCP does not work on this server — use `sudo tee` via SSH stdin to push files.
+
+## Network Context
+
+- HA instance IP: `192.168.68.79`
+- SSH: `ssh mbanus@192.168.68.79` (key-based, user `mbanus`)
+- HA config path on host: `/homeassistant/` (owned by root; write with `sudo`)
+- Trusted reverse proxy subnet: `172.30.33.0/24`
+- Emulated Hue bridge: port 8080
+- HA REST API token: stored in Claude memory (`ha_token.md`)
+
+## YAML Conventions
+
+- Secrets are referenced as `!secret <key>` and defined in `secrets.yaml`
+- Multi-file includes use `!include <file>` or `!include_dir_merge_named <dir>`
+- Entity IDs follow the pattern `<domain>.<descriptive_name>` (e.g., `input_boolean.garage_motion_lock`)
+- MQTT topics follow Shelly convention: `shellies/<device-id>/relay/0/command`
+- Template entities use the modern `template:` top-level key (not legacy `platform: template`)

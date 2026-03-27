@@ -1,0 +1,126 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+  extra_module_url:
+    - /local/community/hass-hue-icons/hass-hue-icons.js
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+
+# Example configuration.yaml entry
+emulated_hue:
+  host_ip: 192.168.68.79
+  listen_port: 8080
+  off_maps_to_on_domains:
+    - script
+    - scene
+  expose_by_default: true
+
+mqtt:
+  binary_sensor:
+    - name: garage_door_open
+      unique_id: garage_door_open_reed
+      state_topic: shellies/shelly1-113C9D/input/0
+      payload_on: "1" # 1 = fully open
+      payload_off: "0" # 0 = not fully open (closed or moving)
+      device_class: opening
+    - name: garage_shelly_online
+      unique_id: garage_shelly_online
+      state_topic: shellies/shelly1-113C9D/online
+      payload_on: "true"
+      payload_off: "false"
+      device_class: connectivity
+
+  cover:
+    - name: Garage Door Raw
+      unique_id: garage_door_raw_cover
+      device_class: garage
+      command_topic: shellies/shelly1-113C9D/relay/0/command
+      payload_open: "on"
+      payload_close: "on"
+      payload_stop: "on"
+      state_topic: shellies/shelly1-113C9D/input/0
+      value_template: "{{ 'open' if value == '1' else 'closed' }}"
+      availability_topic: shellies/shelly1-113C9D/online
+      payload_available: "true"
+      payload_not_available: "false"
+      qos: 1
+      optimistic: false
+
+input_boolean:
+  garage_motion_lock:
+    name: Garage Door Motion Lock
+    icon: mdi:lock-clock
+  garage_lock_override:
+    name: Garage Lock Override
+    icon: mdi:lock-open-alert
+  garage_door_virtual_open:
+    name: Garage Door (Virtual State)
+    icon: mdi:garage
+
+input_number:
+  garage_travel_time:
+    name: Garage Travel time
+    min: 14
+    max: 40
+    step: 1
+    unit_of_measurement: s
+    mode: box
+    icon: mdi:timer
+    initial: 14
+
+timer:
+  garage_travel:
+    name: Garage Travel Timer
+    duration: "00:00:14"
+
+template:
+  - cover:
+      - unique_id: garage_door_safe
+        device_class: garage
+        name: Garage Door
+        default_entity_id: cover.garage_door
+        icon: >-
+          {% if is_state('input_boolean.garage_door_virtual_open', 'on') %}
+            mdi:garage-open
+          {% else %}
+            mdi:garage
+          {% endif %}
+        state: >-
+          {% if is_state('input_boolean.garage_door_virtual_open', 'on') %}
+            open
+          {% else %}
+            closed
+          {% endif %}
+        availability: "{{ is_state('binary_sensor.garage_shelly_online', 'on') }}"
+        open_cover:
+          - action: script.garage_open
+        close_cover:
+          - action: script.garage_close
+        stop_cover:
+          - action: script.garage_stop
+
+light:
+  - platform: group
+    name: Basement Lights
+    unique_id: basement_lights_group
+    entities:
+      - light.dining
+      - light.kitchen
+      - light.living
+      - light.entrance
+  - platform: group
+    name: Bedroom Lights
+    unique_id: bedroom_lights_group
+    entities:
+      - light.bedroom
+      - light.wake_up_light

@@ -1,0 +1,7 @@
+pyprland
+pyprland-debug
+python-imageio-ffmpeg
+python-screeninfo
+waypaper
+yay
+yay-debug

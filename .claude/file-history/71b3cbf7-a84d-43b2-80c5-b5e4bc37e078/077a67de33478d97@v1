@@ -1,0 +1,47 @@
+- alias: Garage Unlock on Timer End
+  mode: restart
+  trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.garage_travel
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.garage_motion_lock
+
+- alias: Garage Unlock When Fully Open
+  mode: restart
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.garage_door_open
+      to: "on"
+  action:
+    - service: timer.cancel
+      data:
+        entity_id: timer.garage_travel
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.garage_motion_lock
+
+- alias: Garage Cancle Timer When Manually Unlocked
+  trigger:
+    - platform: state
+      entity_id: input_boolean.garage_motion_lock
+      to: 'off'
+  condition:
+    - condition: state
+      entity_id: timer.garage_travel
+      state: 'active'
+  action:
+    - service: timer.cancel
+      data:
+        entity_id: timer.garage_travel
+
+- alias: Auto Disable Garage Override After 10m
+  trigger:
+    - platform: state
+      entity_id: input_boolean.garage_motion_lock
+      to: 'on'
+      for: '00:10:00'
+  action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.garage_motion_lock_override

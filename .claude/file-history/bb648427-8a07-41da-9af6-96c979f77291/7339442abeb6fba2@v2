@@ -1,0 +1,9 @@
+.dotfiles
+.antigen
+node_modules
+.local/
+.mozilla/
+.cache
+.vim
+yay
+go/
