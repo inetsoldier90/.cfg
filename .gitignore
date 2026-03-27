@@ -8,3 +8,13 @@ node_modules
 yay
 .config/go/
 dev/
+go/
+.cfg.git/
+.claude/
+.claude.json
+.ssh/
+.bash_history
+.zsh_history
+.zshrc.zwc
+.viminfo
+Downloads/
