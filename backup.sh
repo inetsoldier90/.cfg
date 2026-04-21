@@ -1,32 +1,46 @@
 #!/bin/bash
-# ~/backup.sh — restic-over-rclone backups to Proton Drive.
+# ~/backup.sh — restic backups to Proton Drive via proton-drive-sync.
 #
-# Prerequisites (one-time):
+# Architecture:
+#   restic writes encrypted snapshots → ~/ProtonDrive/restic/arch-home/
+#   proton-drive-sync daemon           → uploads ~/ProtonDrive/ to Proton Drive
+#
+# Prerequisites (one-time setup — run in order):
+#
 #   1. Install tools:
-#        sudo pacman -S rclone restic
-#   2. Configure rclone with a Proton Drive remote named "proton":
-#        rclone config
-#      Choose: n (new) -> name: proton -> storage: protondrive
-#      Enter Proton email + password + 2FA code when prompted.
-#   3. Set a strong restic repository password (stored encrypted, never
-#      transmitted — you MUST remember it or back up snapshots are useless):
+#        sudo pacman -S restic
+#
+#   2. Authenticate proton-drive-sync:
+#        proton-drive-sync auth
+#
+#   3. Register the sync directory:
+#        proton-drive-sync config sync-dir --add ~/ProtonDrive/restic --remote /restic
+#
+#   4. Start the sync daemon:
+#        proton-drive-sync start
+#        systemctl --user enable --now proton-drive-sync.service  # if unit exists
+#
+#   5. Set a strong restic passphrase — remember it, it cannot be recovered:
 #        mkdir -p ~/.config/restic
 #        printf '%s' 'your-very-strong-passphrase' > ~/.config/restic/password
 #        chmod 600 ~/.config/restic/password
-#   4. Initialise the repo (ONE time only):
-#        export RESTIC_REPOSITORY="rclone:proton:backups/arch-home"
+#
+#   6. Initialise the restic repo (ONE time only):
+#        export RESTIC_REPOSITORY="$HOME/ProtonDrive/restic/arch-home"
 #        export RESTIC_PASSWORD_FILE="$HOME/.config/restic/password"
 #        restic init
 #
-# Then run this script manually or from a systemd user timer.
+#   7. Enable the daily timer:
+#        systemctl --user daemon-reload
+#        systemctl --user enable --now restic-backup.timer
 
 set -euo pipefail
 
-export RESTIC_REPOSITORY="rclone:proton:backups/arch-home"
+export RESTIC_REPOSITORY="$HOME/ProtonDrive/restic/arch-home"
 export RESTIC_PASSWORD_FILE="$HOME/.config/restic/password"
 
-# What to back up. Keep this list small and intentional — the dotfiles repo
-# already covers configs, so we focus on irreplaceable personal data.
+# What to back up — dotfiles are already in GitHub, so focus on
+# irreplaceable personal data.
 INCLUDES=(
     "$HOME/Pictures"
     "$HOME/Videos"
@@ -38,7 +52,6 @@ INCLUDES=(
     "$HOME/.config/CLAUDE.md"
 )
 
-# What to exclude within those paths (caches, build artefacts, etc.)
 EXCLUDES=(
     --exclude "**/node_modules"
     --exclude "**/target"
@@ -46,10 +59,8 @@ EXCLUDES=(
     --exclude "**/__pycache__"
     --exclude "**/.cache"
     --exclude "**/*.pyc"
-    --exclude "**/.DS_Store"
 )
 
-# Keep the included paths that actually exist (restic fails on missing ones)
 EXISTING=()
 for p in "${INCLUDES[@]}"; do
     [[ -e "$p" ]] && EXISTING+=("$p")
@@ -62,7 +73,7 @@ fi
 
 restic backup "${EXISTING[@]}" "${EXCLUDES[@]}"
 
-# Retention: keep 7 daily, 4 weekly, 6 monthly snapshots.
+# Retention: 7 daily, 4 weekly, 6 monthly snapshots.
 restic forget --prune \
     --keep-daily 7 \
     --keep-weekly 4 \

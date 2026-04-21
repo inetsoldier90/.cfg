@@ -16,7 +16,7 @@
 [color]
 	ui = true
 [credential]
-	helper = store
+	helper = /usr/lib/git-core/git-credential-libsecret
 [merge]
 	tool = nvimdiff
 [mergetool]

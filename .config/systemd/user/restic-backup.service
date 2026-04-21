@@ -1,6 +1,6 @@
 [Unit]
-Description=restic backup to Proton Drive via rclone
-After=network-online.target
+Description=restic backup to Proton Drive via proton-drive-sync
+After=network-online.target proton-drive-sync.service
 Wants=network-online.target
 
 [Service]
