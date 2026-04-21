@@ -1,0 +1,10 @@
+[Unit]
+Description=restic backup to Proton Drive via rclone
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Nice=19
+IOSchedulingClass=idle
+ExecStart=%h/backup.sh

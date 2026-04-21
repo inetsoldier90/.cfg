@@ -1,7 +1,6 @@
+bibata-cursor-theme
 pyprland
-pyprland-debug
-python-imageio-ffmpeg
-python-screeninfo
+sddm-astronaut-theme
 waypaper
 yay
 yay-debug

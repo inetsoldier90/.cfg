@@ -109,9 +109,10 @@ Kitty is the primary terminal. Alacritty is also installed but secondary.
 
 **Config**: `~/.zshrc`
 
-**Plugin manager**: antigen with oh-my-zsh
+**Plugin manager**: zinit (turbo mode) in `~/.local/share/zinit/`
 **Prompt**: starship (`~/.config/starship.toml`) — shows dir, git, Go, Rust, Node, command duration
-**Plugins**: git, tmux, command-not-found, zsh-syntax-highlighting, zsh-autosuggestions
+**Plugins**: git, tmux, command-not-found (OMZ snippets); fast-syntax-highlighting, zsh-autosuggestions, zsh-completions (deferred with `wait lucid`)
+**Fallback**: previous antigen config preserved at `~/.zshrc.antigen.bak`
 
 **Key tools and aliases**:
 - `ls` / `ll` / `la` / `tree` → eza (with icons + git status)
