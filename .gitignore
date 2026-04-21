@@ -18,3 +18,16 @@ go/
 .zshrc.zwc
 .viminfo
 Downloads/
+Pictures/
+Videos/
+.pki/
+.rustup/
+.cargo/
+.nv/
+.config/dconf/
+.config/pulse/
+.config/spotify/
+.config/systemd/
+.config/.claude/
+.config/nvim/.claude/
+.config/nvim/.netrwhist

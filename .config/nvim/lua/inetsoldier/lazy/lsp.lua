@@ -53,6 +53,24 @@ return {
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
+            sorting = {
+                comparators = {
+                    function(entry1, entry2)
+                        local l1, l2 = entry1.completion_item.label, entry2.completion_item.label
+                        if l1 == "float32" and l2 == "float64" then return false end
+                        if l1 == "float64" and l2 == "float32" then return true end
+                    end,
+                    cmp.config.compare.offset,
+                    cmp.config.compare.exact,
+                    cmp.config.compare.score,
+                    cmp.config.compare.recently_used,
+                    cmp.config.compare.locality,
+                    cmp.config.compare.kind,
+                    cmp.config.compare.sort_text,
+                    cmp.config.compare.length,
+                    cmp.config.compare.order,
+                },
+            },
             snippet = {
                 expand = function(args)
                     require('luasnip').lsp_expand(args.body) -- For `luasnip` users.

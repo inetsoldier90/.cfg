@@ -1,0 +1,48 @@
+format = """
+$directory\
+$git_branch\
+$git_status\
+$golang\
+$rust\
+$nodejs\
+$cmd_duration\
+$line_break\
+$character"""
+
+[directory]
+truncation_length   = 3
+truncate_to_repo    = true
+style               = "bold blue"
+
+[git_branch]
+symbol = " "
+style  = "bold purple"
+
+[git_status]
+ahead  = "⇡${count}"
+behind = "⇣${count}"
+staged = "[+${count}](green)"
+modified = "[~${count}](yellow)"
+untracked = "[?${count}](red)"
+style = "bold red"
+
+[golang]
+symbol = " "
+style  = "bold cyan"
+
+[rust]
+symbol = " "
+style  = "bold orange"
+
+[nodejs]
+symbol = " "
+style  = "bold green"
+
+[cmd_duration]
+min_time            = 2000
+format              = "[ $duration]($style) "
+style               = "yellow"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"

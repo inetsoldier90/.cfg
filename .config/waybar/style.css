@@ -1,0 +1,73 @@
+* {
+    font-family: "CaskaydiaCove Nerd Font Mono", "Cantarell", sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(20, 20, 28, 0.90);
+    border-bottom: 1px solid rgba(86, 170, 236, 0.25);
+    color: #cdd6f4;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    background: transparent;
+    color: #6c7086;
+    border-radius: 6px;
+    margin: 4px 2px;
+}
+
+#workspaces button:hover {
+    background: rgba(86, 170, 236, 0.15);
+    color: #cdd6f4;
+}
+
+#workspaces button.active {
+    background: rgba(86, 170, 236, 0.30);
+    color: #86aaec;
+    font-weight: bold;
+}
+
+#workspaces button.urgent {
+    background: rgba(243, 139, 168, 0.30);
+    color: #f38ba8;
+}
+
+#window {
+    color: #a6adc8;
+    padding: 0 8px;
+}
+
+#clock {
+    color: #86aaec;
+    font-weight: bold;
+    padding: 0 12px;
+}
+
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#tray {
+    padding: 0 8px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background: rgba(40, 40, 55, 0.60);
+}
+
+#cpu { color: #a6e3a1; }
+#memory { color: #fab387; }
+#network { color: #89dceb; }
+#pulseaudio { color: #cba6f7; }
+#pulseaudio.muted { color: #6c7086; }
+
+#tray {
+    background: rgba(40, 40, 55, 0.60);
+}
