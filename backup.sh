@@ -78,3 +78,11 @@ restic forget --prune \
     --keep-daily 7 \
     --keep-weekly 4 \
     --keep-monthly 6
+
+# Monthly repository integrity check — catches corruption before you need the snapshots.
+CHECK_MARKER="$HOME/.config/restic/last-check"
+if [[ ! -f "$CHECK_MARKER" ]] || [[ $(find "$CHECK_MARKER" -mtime +30 -print -quit 2>/dev/null) ]]; then
+    echo "backup.sh: running monthly restic check..."
+    restic check
+    touch "$CHECK_MARKER"
+fi

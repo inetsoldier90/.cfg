@@ -14,9 +14,11 @@ zinit snippet OMZP::tmux
 zinit snippet OMZP::command-not-found
 
 # Deferred plugins (load after prompt is shown — ice "wait" + "lucid")
+# Order: compinit → fzf-tab → widget-wrapping plugins (syntax-highlighting, autosuggestions)
 zinit wait lucid for \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma-continuum/fast-syntax-highlighting \
+        Aloxaf/fzf-tab \
+    zdharma-continuum/fast-syntax-highlighting \
     atload"_zsh_autosuggest_start" \
         zsh-users/zsh-autosuggestions \
     blockf atpull'zinit creinstall -q .' \

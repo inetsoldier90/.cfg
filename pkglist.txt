@@ -1,4 +1,3 @@
-alacritty
 base
 base-devel
 bat
@@ -132,7 +131,6 @@ ttf-ubuntu-nerd
 ttf-victor-mono-nerd
 ttf-zed-mono-nerd
 tumbler
-vim
 waybar
 websocat
 wf-recorder
