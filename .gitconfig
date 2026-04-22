@@ -41,5 +41,19 @@
 [user]
 	email = 12martin12@gmx.de
 	name = iNETSOLDIER
+	signingkey = /home/inet/.ssh/id_ed25519.pub
+
+[gpg]
+	format = ssh
+
+[gpg "ssh"]
+	allowedSignersFile = /home/inet/.config/git/allowed_signers
+
+[commit]
+	gpgsign = true
+
+[tag]
+	gpgsign = true
+
 [init]
 	defaultBranch = main

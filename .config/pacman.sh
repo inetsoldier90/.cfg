@@ -12,7 +12,9 @@ set -euo pipefail
 PKGLIST="${HOME}/pkglist.txt"
 AURLIST="${HOME}/aurlist.txt"
 
-sudo pacman -Syu --noconfirm
+# System upgrade without --noconfirm: catch replace/remove prompts for renamed or
+# conflicting packages. The -S --needed calls below stay automated.
+sudo pacman -Syu
 
 if [[ -s "$PKGLIST" ]]; then
     sudo pacman -S --needed --noconfirm - < "$PKGLIST"

@@ -117,3 +117,9 @@ if ! shopt -oq posix; then
 fi
 
 [ -s "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# Modern tool integrations (parity with zsh — only active for interactive bash).
+[ -f /usr/share/fzf/key-bindings.bash ] && source /usr/share/fzf/key-bindings.bash
+[ -f /usr/share/fzf/completion.bash ]   && source /usr/share/fzf/completion.bash
+command -v zoxide   >/dev/null && eval "$(zoxide init bash --cmd cd)"
+command -v starship >/dev/null && eval "$(starship init bash)"

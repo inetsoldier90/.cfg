@@ -124,6 +124,12 @@ Kitty is the primary terminal. Alacritty is also installed but secondary.
 
 **fzf key bindings**: `Ctrl+R` (history), `Ctrl+T` (files), `Alt+C` (cd)
 
+**Startup baseline**: ~24ms per interactive shell (2.4s / 100 runs, measured 2026-04-22 with zinit turbo + fzf-tab). Re-measure after plugin changes:
+```bash
+hyperfine 'zsh -i -c exit'              # once hyperfine is installed
+bash -c 'time (for i in $(seq 1 100); do zsh -i -c exit; done)'   # portable alternative
+```
+
 ### CLI Tools
 
 Notable installed tools: `fzf`, `zoxide`, `eza`, `bat`, `fd`, `ripgrep`, `btop`, `lazygit`, `git-delta`, `tealdeer`, `starship`, `yazi`, `hyprpicker`, `wf-recorder`, `satty`, `obs-studio`

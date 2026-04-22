@@ -26,12 +26,13 @@
     "cpu": {
         "format": " {usage}%",
         "interval": 2,
-        "tooltip": false
+        "tooltip-format": "CPU: {usage}%\nLoad: {load}"
     },
 
     "memory": {
-        "format": " {}%",
-        "interval": 2
+        "format": " {used:0.1f}/{total:0.1f} GiB",
+        "interval": 2,
+        "tooltip-format": "RAM: {percentage}% ({used:0.1f}/{total:0.1f} GiB)\nSwap: {swapUsed:0.1f}/{swapTotal:0.1f} GiB"
     },
 
     "network": {
