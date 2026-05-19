@@ -35,8 +35,6 @@ eval "$(starship init zsh)"
 source /usr/share/fzf/key-bindings.zsh
 source /usr/share/fzf/completion.zsh
 
-eval "$(zoxide init zsh --cmd cd)"
-
 # ============================================================================
 # History
 # ============================================================================
@@ -80,3 +78,5 @@ alias cat='bat --paging=never'
 export EDITOR=nvim
 export SUDO_EDITOR=/usr/bin/nvim
 export PATH="$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin:$PATH"
+
+eval "$(zoxide init zsh --cmd cd)"
